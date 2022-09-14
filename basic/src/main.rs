@@ -17,4 +17,10 @@ fn main() {
     println!("{}", c);
     let c = "test"; // shadowing
     println!("{}", c);
+
+    // constant
+    const A: i32 = 111;
+    println!("{}", A);
+    const B: &str = "test";
+    println!("{}", B);
 }

@@ -67,4 +67,11 @@ fn main() {
     let v5 = v3.get(1);
     let v6 = &v3[..];
     println!("{:?} {:?} {:?}", v4, v5, v6);
+
+    // char
+    let c1 = 'a';
+    let c2 = '@';
+    let c3 = '😀';
+    println!("{} {} {}", c1, c2, c3);
+
 }

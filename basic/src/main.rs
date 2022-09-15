@@ -51,4 +51,20 @@ fn main() {
     let s2 = &s[0..=2];
     let s3 = &s[..];
     println!("{:?} {:?} {:?}", s1, s2, s3);
+
+    // vector
+    let mut v1 = vec![1, 2, 3];
+    let vv1 = v1.pop();
+    let mut v2 = vec![0; 9];
+    v2.push(10);
+    println!("{:?} {:?} {:?}", v1, v2, vv1);
+    let mut v3 = Vec::new();
+    v3.push("test1");
+    v3.push("test2");
+    v3.push("test3");
+    println!("{:?}", v3);
+    let v4 = v3[0];
+    let v5 = v3.get(1);
+    let v6 = &v3[..];
+    println!("{:?} {:?} {:?}", v4, v5, v6);
 }

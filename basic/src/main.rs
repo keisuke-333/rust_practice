@@ -36,4 +36,12 @@ fn main() {
     let (x, y, z) = t1;
     let (x1, y1, _) = t1;
     println!("{} {} {} {} {}", x, y, z, x1, y1);
+
+    // array
+    let a1 = [1, 2, 3];
+    let a2 = [0; 9];
+    let a3 = a1[0];
+    println!("{:?} {:?} {:?}", a1, a2, a3);
+    let [ax, ay, az] = a1;
+    println!("{:?} {:?} {:?}", ax, ay, az);
 }

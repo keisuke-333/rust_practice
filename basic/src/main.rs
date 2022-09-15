@@ -23,4 +23,8 @@ fn main() {
     println!("{}", A);
     const B: &str = "test";
     println!("{}", B);
+
+    // numeric type
+    let f = 1 as f64 + 2.0;
+    println!("{}", f);
 }

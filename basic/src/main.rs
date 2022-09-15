@@ -1,3 +1,8 @@
+// function
+fn add(a: i32, b: i32) -> i32 {
+    a + b
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -84,4 +89,7 @@ fn main() {
     println!("{}", s4 + "!!"); // String + &str
     let s5 = format!("{} {} {}", s1, s2, s3);
     println!("{}", s5);
+
+    // function
+    println!("{}", add(1, 2));
 }

@@ -44,4 +44,11 @@ fn main() {
     println!("{:?} {:?} {:?}", a1, a2, a3);
     let [ax, ay, az] = a1;
     println!("{:?} {:?} {:?}", ax, ay, az);
+
+    // slice
+    let s = [1, 2, 3];
+    let s1 = &s[0..2];
+    let s2 = &s[0..=2];
+    let s3 = &s[..];
+    println!("{:?} {:?} {:?}", s1, s2, s3);
 }

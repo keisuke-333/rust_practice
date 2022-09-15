@@ -27,4 +27,13 @@ fn main() {
     // numeric type
     let f = 1 as f64 + 2.0;
     println!("{}", f);
+
+    // tuple
+    let t1 = (1, true, 2.0);
+    println!("{:?}", t1);
+    let i = t1.0;
+    println!("{}", i);
+    let (x, y, z) = t1;
+    let (x1, y1, _) = t1;
+    println!("{} {} {} {} {}", x, y, z, x1, y1);
 }

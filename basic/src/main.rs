@@ -74,4 +74,14 @@ fn main() {
     let c3 = '😀';
     println!("{} {} {}", c1, c2, c3);
 
+    // string
+    let s1 = "Hello";
+    let s2 = String::from("Rust");
+    let s3 = "user".to_string();
+    println!("{} {} {}", s1, s2, s3);
+    let mut s4 = String::from("test");
+    s4.push_str("!");
+    println!("{}", s4 + "!!"); // String + &str
+    let s5 = format!("{} {} {}", s1, s2, s3);
+    println!("{}", s5);
 }

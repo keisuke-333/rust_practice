@@ -128,4 +128,14 @@ fn main() {
         _ => 100,
     };
     println!("{}", m2);
+
+    // loop
+    let mut lcnt = 0;
+    loop {
+        println!("loop{}", lcnt + 1);
+        if lcnt == 9 {
+            break;
+        }
+        lcnt += 1;
+    }
 }

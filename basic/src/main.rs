@@ -103,4 +103,12 @@ fn main() {
     println!("{}", b1);
     let block = { 100 };
     println!("{}", block);
+
+    // if
+    let ifx = 5;
+    if ifx > 0 && ifx < 10 {
+        println!("OK!");
+    }
+    let ify = if ifx < 10 { ifx } else { 0 };
+    println!("{}", ify);
 }

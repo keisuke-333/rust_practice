@@ -92,4 +92,15 @@ fn main() {
 
     // function
     println!("{}", add(1, 2));
+
+    // block
+    let b1 = 10;
+    println!("{}", b1);
+    {
+        let b1 = 5; // not shadowing
+        println!("{}", b1);
+    }
+    println!("{}", b1);
+    let block = { 100 };
+    println!("{}", block);
 }

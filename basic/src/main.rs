@@ -145,4 +145,10 @@ fn main() {
         println!("while{}", wcnt + 1);
         wcnt += 1;
     }
+
+    // for
+    let fcnts = 1..=10;
+    for fcnt in fcnts {
+        println!("for{}", fcnt);
+    }
 }

@@ -111,4 +111,21 @@ fn main() {
     }
     let ify = if ifx < 10 { ifx } else { 0 };
     println!("{}", ify);
+
+    // match
+    let m1 = 2;
+    match m1 {
+        0 => println!("zero"),
+        1 => println!("one"),
+        _ => {
+            println!("other");
+            println!("!");
+        }
+    };
+    let m2 = match m1 {
+        0 => 0,
+        1 => 10,
+        _ => 100,
+    };
+    println!("{}", m2);
 }

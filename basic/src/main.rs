@@ -138,4 +138,11 @@ fn main() {
         }
         lcnt += 1;
     }
+
+    // while
+    let mut wcnt = 0;
+    while wcnt < 10 {
+        println!("while{}", wcnt + 1);
+        wcnt += 1;
+    }
 }

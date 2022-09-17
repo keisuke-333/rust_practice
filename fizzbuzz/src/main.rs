@@ -26,7 +26,20 @@ fn fizzbuzz2(end: i32) {
     }
 }
 
+fn fizzbuzz3(end: i32) {
+    let nums = 1..=end;
+    for num in nums {
+        match (num % 3, num % 5) {
+            (0, 0) => println!("FizzBuzz"),
+            (0, _) => println!("Fizz"),
+            (_, 0) => println!("Buzz"),
+            _ => println!("{}", num),
+        }
+    }
+}
+
 fn main() {
     fizzbuzz(30);
-    fizzbuzz2(30)
+    fizzbuzz2(30);
+    fizzbuzz3(30);
 }

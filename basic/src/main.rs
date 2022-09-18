@@ -3,6 +3,12 @@ fn add(a: i32, b: i32) -> i32 {
     a + b
 }
 
+// ownership
+fn concat(a: String, b: String) -> (String, String, String) {
+    let c = format!("{} {}", a, b);
+    (c, a, b)
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -151,4 +157,25 @@ fn main() {
     for fcnt in fcnts {
         println!("for{}", fcnt);
     }
+
+    // ownership
+    let mut o1 = vec![1, 2, 3];
+    println!("o1 ptr: {:?}", o1.as_ptr());
+    println!("o1[o] : {:p}", &o1[0]);
+    println!("o1 len: {}", o1.len());
+    println!("o1 capacity: {}", o1.capacity());
+    o1.push(4);
+    println!("o1 ptr: {:?}", o1.as_ptr());
+    println!("o1 len: {}", o1.len());
+    println!("o1 capacity: {}", o1.capacity());
+    let o2 = o1;
+    let o3 = o2.clone();
+    println!("o2 ptr: {:?}", o2.as_ptr());
+    println!("o3 ptr: {:?}", o3.as_ptr());
+    let s1 = String::from("Hello");
+    let s2 = String::from("Rust");
+    let (s, s1, s2) = concat(s1, s2);
+    println!("{}", s);
+    println!("{}", s1);
+    println!("{}", s2);
 }

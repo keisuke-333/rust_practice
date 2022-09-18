@@ -192,4 +192,13 @@ fn main() {
     println!("{}", r3);
     println!("{}", r1);
     println!("{}", r2);
+
+    // lifetime
+    let lt1;
+    {
+        let lt2 = 1;
+        lt1 = &lt2;
+        println!("{}", lt1);
+    }
+    // println!("{}", lt1); // error!
 }

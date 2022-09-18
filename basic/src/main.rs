@@ -9,6 +9,12 @@ fn concat(a: String, b: String) -> (String, String, String) {
     (c, a, b)
 }
 
+// reference
+fn concat2(a: &String, b: &String) -> String {
+    let c = format!("{} {}", a, b);
+    c
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -178,4 +184,12 @@ fn main() {
     println!("{}", s);
     println!("{}", s1);
     println!("{}", s2);
+
+    // reference
+    let r1 = String::from("Hello");
+    let r2 = String::from("Rust");
+    let r3 = concat2(&r1, &r2);
+    println!("{}", r3);
+    println!("{}", r1);
+    println!("{}", r2);
 }

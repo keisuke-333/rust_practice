@@ -1,3 +1,6 @@
+// smart pointer
+use std::rc::Rc;
+
 // function
 fn add(a: i32, b: i32) -> i32 {
     a + b
@@ -201,4 +204,18 @@ fn main() {
         println!("{}", lt1);
     }
     // println!("{}", lt1); // error!
+
+    // smart pointer
+    let sp1 = Box::new(1); // Box
+    println!("sp1:{:p}", sp1);
+    println!("{}", *sp1 + 2);
+    let sp2 = Rc::new("hello".to_string());
+    println!("refCount: {}", Rc::strong_count(&sp2));
+    {
+        let sp3 = Rc::clone(&sp2);
+        println!("{:p}", sp2);
+        println!("{:p}", sp3);
+        println!("refCount: {}", Rc::strong_count(&sp2));
+    }
+    println!("refCount: {}", Rc::strong_count(&sp2));
 }

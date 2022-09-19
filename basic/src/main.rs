@@ -18,6 +18,18 @@ fn concat2(a: &String, b: &String) -> String {
     c
 }
 
+// struct
+struct Rectangle {
+    width: u32,
+    height: u32,
+}
+
+impl Rectangle {
+    fn area(&self) -> u32 {
+        self.width * self.height
+    }
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -218,4 +230,15 @@ fn main() {
         println!("refCount: {}", Rc::strong_count(&sp2));
     }
     println!("refCount: {}", Rc::strong_count(&sp2));
+
+    // struct
+    let mut rectangle = Rectangle {
+        width: 10,
+        height: 5,
+    };
+    println!("width: {}", rectangle.width);
+    println!("height: {}", rectangle.height);
+    rectangle.height = 10;
+    println!("height: {}", rectangle.height);
+    println!("area: {}", rectangle.area());
 }

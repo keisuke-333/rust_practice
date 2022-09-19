@@ -25,8 +25,13 @@ struct Rectangle {
 }
 
 impl Rectangle {
+    // method
     fn area(&self) -> u32 {
         self.width * self.height
+    }
+    // associated function
+    fn new(width: u32, height: u32) -> Self {
+        Rectangle { width, height }
     }
 }
 
@@ -241,4 +246,8 @@ fn main() {
     rectangle.height = 10;
     println!("height: {}", rectangle.height);
     println!("area: {}", rectangle.area());
+    let rectangle2 = Rectangle::new(9, 9);
+    println!("width: {}", rectangle2.width);
+    println!("height: {}", rectangle2.height);
+    println!("area: {}", rectangle2.area());
 }

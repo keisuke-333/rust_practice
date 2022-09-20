@@ -35,6 +35,18 @@ impl Rectangle {
     }
 }
 
+// enum
+enum Shape {
+    Circle,
+    Triangle(u32),
+}
+
+impl Shape {
+    fn sample_method(&self) {
+        println!("call sample method");
+    }
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -250,4 +262,10 @@ fn main() {
     println!("width: {}", rectangle2.width);
     println!("height: {}", rectangle2.height);
     println!("area: {}", rectangle2.area());
+
+    // enum
+    let ec = Shape::Circle;
+    let et = Shape::Triangle(3);
+    ec.sample_method();
+    et.sample_method();
 }

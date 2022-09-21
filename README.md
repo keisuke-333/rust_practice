@@ -1,3 +1,3 @@
-## rust_practice
+## Rust Practice
 
 Practice repository for Rust

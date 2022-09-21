@@ -268,4 +268,15 @@ fn main() {
     let et = Shape::Triangle(3);
     ec.sample_method();
     et.sample_method();
+
+    // option
+    let ov = vec![1, 2, 3];
+    let oval = ov.get(2);
+    match oval {
+        Some(x) => println!("value exists: {}", x),
+        None => println!("value is None"),
+    }
+    if let Some(x) = oval {
+        println!("val={}", x)
+    }
 }

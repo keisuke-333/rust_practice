@@ -273,6 +273,8 @@ fn main() {
     let ov = vec![1, 2, 3];
     let oval = ov.get(2);
     match oval {
+        // match guard
+        Some(x) if *x == 3 => println!("value is 3"),
         Some(x) => println!("value exists: {}", x),
         None => println!("value is None"),
     }

@@ -8,4 +8,5 @@ fn main() {
     println!("{}", rand_number);
     sub1::test_fn();
     sub2::test_fn();
+    crates_and_modules::say_hello();
 }

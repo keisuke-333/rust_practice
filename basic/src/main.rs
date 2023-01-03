@@ -1,4 +1,5 @@
 // smart pointer
+use basic::sample_trait::{Circle1, Rectangle1, Shape1};
 use std::rc::Rc;
 
 // function
@@ -281,4 +282,17 @@ fn main() {
     if let Some(x) = oval {
         println!("val={}", x)
     }
+
+    // trait
+    let rect = Rectangle1 {
+        width: 4.0,
+        height: 5.0,
+    };
+    let circle = Circle1 { radius: 2.0 };
+    println!("Rectangle area is: {}", rect.calc_area());
+    println!("Rectangle perimeter is: {}", rect.calc_perimeter());
+    Rectangle1::do_something();
+    println!("Circle area is: {}", circle.calc_area());
+    println!("Circle perimeter is: {}", circle.calc_perimeter());
+    Circle1::do_something();
 }

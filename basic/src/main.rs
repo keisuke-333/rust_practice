@@ -299,4 +299,15 @@ fn main() {
     println!("Circle default: {}", circle.default_something());
     println!("Rectangle double area: {}", double_area(&rect));
     println!("Circle double area: {}", double_area(&circle));
+
+    // derive
+    #[derive(Debug, PartialEq)]
+    struct Drv {
+        val1: i32,
+        val2: i32,
+    }
+    println!("{:?}", Drv { val1: 1, val2: 2 });
+    let de1 = Drv { val1: 1, val2: 2 };
+    let de2 = Drv { val1: 1, val2: 2 };
+    println!("{:?}", de1 == de2);
 }

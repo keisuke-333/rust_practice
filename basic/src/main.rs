@@ -1,5 +1,5 @@
 // smart pointer
-use basic::sample_trait::{Circle1, Rectangle1, Shape1};
+use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
 use std::rc::Rc;
 
 // function
@@ -297,4 +297,6 @@ fn main() {
     Circle1::do_something();
     println!("Rectangle default: {}", rect.default_something());
     println!("Circle default: {}", circle.default_something());
+    println!("Rectangle double area: {}", double_area(&rect));
+    println!("Circle double area: {}", double_area(&circle));
 }

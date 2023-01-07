@@ -2,6 +2,9 @@ pub mod sample_trait {
     pub trait Shape1 {
         fn calc_area(&self) -> f64;
         fn calc_perimeter(&self) -> f64;
+        fn default_something(&self) -> &str {
+            "This is default method!"
+        }
         fn do_something();
     }
 
@@ -16,6 +19,9 @@ pub mod sample_trait {
         }
         fn calc_perimeter(&self) -> f64 {
             self.width * 2.0 + self.height * 2.0
+        }
+        fn default_something(&self) -> &str {
+            "This is Rectangle1 default!"
         }
         fn do_something() {
             println!("This is Rectangle function")

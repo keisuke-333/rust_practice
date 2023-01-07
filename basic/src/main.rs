@@ -48,6 +48,15 @@ impl Shape {
     }
 }
 
+// generics
+fn max<T: PartialOrd>(a: T, b: T) -> T {
+    if a >= b {
+        a
+    } else {
+        b
+    }
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -310,4 +319,9 @@ fn main() {
     let de1 = Drv { val1: 1, val2: 2 };
     let de2 = Drv { val1: 1, val2: 2 };
     println!("{:?}", de1 == de2);
+
+    // generics
+    println!("{}", max(1, 2));
+    println!("{}", max(1.1, 1.2));
+    println!("{}", max("x", "a"));
 }

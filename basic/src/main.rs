@@ -324,4 +324,9 @@ fn main() {
     println!("{}", max(1, 2));
     println!("{}", max(1.1, 1.2));
     println!("{}", max("x", "a"));
+
+    // closure
+    let cl1 = 10;
+    let cl2 = |x: i32| x + cl1;
+    println!("{:?}", cl2(10));
 }

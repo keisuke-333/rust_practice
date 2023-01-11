@@ -329,4 +329,18 @@ fn main() {
     let cl1 = 10;
     let cl2 = |x: i32| x + cl1;
     println!("{:?}", cl2(10));
+
+    // iterator
+    let it1 = vec![1, 2, 3, 4, 5];
+    let v1_iter = it1.iter();
+    for x in v1_iter {
+        println!("{:?}", x);
+    }
+    let mut v2_iter = it1.iter();
+    println!("{:?}", v2_iter.next());
+    println!("{:?}", v2_iter.next());
+    println!("{:?}", v2_iter.next());
+    println!("{:?}", v2_iter.next());
+    println!("{:?}", v2_iter.next());
+    println!("{:?}", v2_iter.next());
 }

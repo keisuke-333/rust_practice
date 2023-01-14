@@ -57,6 +57,27 @@ fn max<T: PartialOrd>(a: T, b: T) -> T {
     }
 }
 
+// custom iterator
+
+struct Counter {
+    start: u32,
+    end: u32,
+}
+
+impl Iterator for Counter {
+    type Item = u32;
+
+    fn next(&mut self) -> Option<u32> {
+        if self.start > self.end {
+            None
+        } else {
+            let result = Some(self.start);
+            self.start += 1;
+            result
+        }
+    }
+}
+
 fn main() {
     // print
     println!("Hello, world!");
@@ -343,4 +364,10 @@ fn main() {
     println!("{:?}", v2_iter.next());
     println!("{:?}", v2_iter.next());
     println!("{:?}", v2_iter.next());
+
+    // custom iterator
+    let ci1 = Counter { start: 1, end: 5 };
+    for i in ci1 {
+        println!("{}", i);
+    }
 }

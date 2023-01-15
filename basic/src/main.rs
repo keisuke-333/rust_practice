@@ -370,4 +370,33 @@ fn main() {
     for i in ci1 {
         println!("{}", i);
     }
+
+    // iterator methods
+    let im1 = vec![1, 2, 3, 4, 5];
+    let im2 = im1.iter().map(|x| x * 2);
+    for val in im2 {
+        println!("im2 = {:?}", val);
+    }
+
+    let im3: Vec<_> = im1.iter().map(|x| x * 2).collect();
+    println!("{:?}", im3);
+
+    let im4: Vec<_> = im1.iter().filter(|x| *x % 2 != 0).collect();
+    println!("{:?}", im4);
+
+    let im5 = im1.iter().count();
+    println!("{:?}", im5);
+
+    let im6: i32 = im1.iter().sum();
+    let im7: i32 = im1.iter().product();
+    println!("im6 = {:?}", im6);
+    println!("im7 = {:?}", im7);
+
+    let im8 = im1.iter().min();
+    let im9 = im1.iter().max();
+    println!("min = {:?}", im8);
+    println!("max = {:?}", im9);
+
+    let im10 = im1.iter().fold(0, |sum, x| sum + x);
+    println!("im10 = {:?}", im10);
 }

@@ -399,4 +399,60 @@ fn main() {
 
     let im10 = im1.iter().fold(0, |sum, x| sum + x);
     println!("im10 = {:?}", im10);
+
+    // collection - vector
+    let cv1 = vec!["Rust", "Python", "Java"];
+    println!("{:?}", cv1);
+    println!("{:?}", cv1.as_ptr());
+    println!("{:?}", cv1.len());
+    println!("{:?}", cv1.capacity());
+
+    println!("{:?}", cv1[0]);
+    println!("{:?}", &cv1[0]);
+    println!("{:?}", cv1.get(0));
+
+    let mut cv2 = vec!["Rust", "Python", "Java"];
+    cv2.push("PHP");
+    println!("{:?}", cv2);
+    let cv3 = cv2.pop();
+    println!("{:?}", cv3);
+    println!("{:?}", cv2);
+    cv2.insert(1, "PHP");
+    println!("{:?}", cv2);
+    cv2.remove(2);
+    println!("{:?}", cv2);
+
+    let cv4 = vec!["Rust", "Python", "Java"];
+    let cv5 = vec!["PHP", "Go"];
+    let cv6 = [cv4, cv5].concat();
+    println!("{:?}", cv6);
+    let (cv7, cv8) = cv6.split_at(2);
+    println!("{:?}", cv7);
+    println!("{:?}", cv8);
+    let mut cv9 = vec![3, 6, 1, 7, 2];
+    cv9.sort();
+    println!("{:?}", cv9);
+    cv9.reverse();
+    println!("{:?}", cv9);
+
+    #[derive(Debug)]
+    struct Cv10 {
+        val1: i32,
+        val2: i32,
+    }
+    let mut cv11 = vec![
+        Cv10 { val1: 3, val2: 2 },
+        Cv10 { val1: 2, val2: 1 },
+        Cv10 { val1: 1, val2: 3 },
+    ];
+    cv11.sort_by_key(|s| s.val1);
+    println!("sort by key 1 = {:?}", cv11);
+    cv11.sort_by_key(|s| s.val2);
+    println!("sort by key 2 = {:?}", cv11);
+
+    let cv12 = vec![3, 6, 1, 7, 2];
+    println!("{:?}", cv12.contains(&6));
+
+    let cv13 = cv12.iter().position(|x| *x == 2);
+    println!("{:?}", cv13);
 }

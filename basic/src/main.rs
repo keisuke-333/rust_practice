@@ -1,6 +1,9 @@
 // smart pointer
 use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
-use std::rc::Rc;
+use std::{
+    collections::{BinaryHeap, VecDeque},
+    rc::Rc,
+};
 
 // function
 fn add(a: i32, b: i32) -> i32 {
@@ -455,4 +458,23 @@ fn main() {
 
     let cv13 = cv12.iter().position(|x| *x == 2);
     println!("{:?}", cv13);
+
+    // queue
+    let mut qu1 = VecDeque::new();
+    // let mut qu1 = VecDeque::from(vec![1, 2, 3]);
+    qu1.push_back(1);
+    qu1.push_back(2);
+    qu1.push_back(3);
+    println!("{:?}", qu1);
+    println!("{:?}", qu1.pop_front());
+    println!("{:?}", qu1);
+
+    let mut qubh = BinaryHeap::new();
+    qubh.push(1);
+    qubh.push(10);
+    qubh.push(20);
+    qubh.push(2);
+    println!("{:?}", qubh);
+    println!("{:?}", qubh.pop());
+    println!("{:?}", qubh);
 }

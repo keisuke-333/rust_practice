@@ -1,7 +1,7 @@
 // smart pointer
 use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
 use std::{
-    collections::{BinaryHeap, VecDeque},
+    collections::{BinaryHeap, HashMap, VecDeque},
     rc::Rc,
 };
 
@@ -477,4 +477,24 @@ fn main() {
     println!("{:?}", qubh);
     println!("{:?}", qubh.pop());
     println!("{:?}", qubh);
+
+    // map
+    let mut map1 = HashMap::new();
+    map1.insert("Japan", 11);
+    map1.insert("USA", 3);
+    map1.insert("China", 1);
+    map1.insert("India", 2);
+    println!("{:?}", map1);
+
+    map1.insert("Japan", 10);
+    println!("{:?}", map1);
+
+    println!("{:?}", map1.get("USA"));
+    println!("{:?}", map1.remove("India"));
+    println!("{:?}", map1);
+
+    for (k, v) in &map1 {
+        println!("{:?}", k);
+        println!("{:?}", v);
+    }
 }

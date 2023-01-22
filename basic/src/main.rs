@@ -81,6 +81,14 @@ impl Iterator for Counter {
     }
 }
 
+// unit test
+#[test]
+fn test_sample() {
+    let a = 1 + 1;
+    let b = 2;
+    assert_eq!(a, b);
+}
+
 fn main() {
     // print
     println!("Hello, world!");

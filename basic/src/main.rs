@@ -100,10 +100,25 @@ fn maybe_panic(flag: bool) {
     }
 }
 
-#[test]
-#[should_panic(expected = "flag is true")]
-fn test_maybe_panic() {
-    maybe_panic(true);
+// test control
+#[cfg(test)]
+mod test_module {
+    #[test]
+    #[should_panic(expected = "flag is true")]
+    fn test_maybe_panic() {
+        super::maybe_panic(true);
+    }
+
+    #[test]
+    fn test_calc_add() {
+        assert_eq!(1 + 1, 2);
+    }
+
+    #[test]
+    #[ignore]
+    fn test_calc_diff() {
+        assert_eq!(1 - 1, 0);
+    }
 }
 
 fn main() {

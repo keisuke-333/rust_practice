@@ -89,6 +89,23 @@ fn test_sample() {
     assert_eq!(a, b);
 }
 
+// panic test
+fn maybe_panic(flag: bool) {
+    if flag == false {
+        println!("safe!");
+        // do something
+        panic!("unexpected!");
+    } else {
+        panic!("flag is true!");
+    }
+}
+
+#[test]
+#[should_panic(expected = "flag is true")]
+fn test_maybe_panic() {
+    maybe_panic(true);
+}
+
 fn main() {
     // print
     println!("Hello, world!");

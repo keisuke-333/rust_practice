@@ -2,6 +2,7 @@
 use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
 use std::{
     collections::{BinaryHeap, HashMap, HashSet, VecDeque},
+    env,
     rc::Rc,
 };
 
@@ -570,4 +571,8 @@ fn main() {
     println!("set5: {:?}", set5);
     let set6 = &set1 ^ &set2;
     println!("set6: {:?}", set6);
+
+    // command line argument
+    let args: Vec<String> = env::args().collect();
+    println!("{:?}", args);
 }

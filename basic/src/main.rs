@@ -2,7 +2,7 @@
 use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
 use std::{
     collections::{BinaryHeap, HashMap, HashSet, VecDeque},
-    env,
+    env, io,
     rc::Rc,
 };
 
@@ -575,4 +575,12 @@ fn main() {
     // command line argument
     let args: Vec<String> = env::args().collect();
     println!("{:?}", args);
+
+    // stdin
+    println!("文字列を入力してください。");
+    let mut input = String::new();
+    io::stdin().read_line(&mut input).unwrap();
+    println!("入力された文字列：{:?}", input);
+    let num: i32 = input.trim().parse().unwrap();
+    println!("{}", num * 10);
 }

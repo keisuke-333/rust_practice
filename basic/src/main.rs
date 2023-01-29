@@ -2,7 +2,9 @@
 use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
 use std::{
     collections::{BinaryHeap, HashMap, HashSet, VecDeque},
-    env, io,
+    env,
+    fs::{self, File},
+    io::{self, BufRead, BufReader, Read},
     rc::Rc,
 };
 
@@ -583,4 +585,31 @@ fn main() {
     println!("入力された文字列：{:?}", input);
     let num: i32 = input.trim().parse().unwrap();
     println!("{}", num * 10);
+
+    // file read
+    let mut fr1 = File::open("src/sample1.txt").unwrap();
+    let mut frc1 = String::new();
+    fr1.read_to_string(&mut frc1).unwrap();
+    println!("{}", frc1);
+
+    let frc2 = fs::read_to_string("src/sample1.txt").unwrap();
+    println!("{}", frc2);
+
+    let fr3 = File::open("src/sample1.txt").unwrap();
+    let mut buf_reader = BufReader::new(fr3);
+    let mut frline = String::new();
+    buf_reader.read_line(&mut frline).unwrap();
+    println!("{}", frline);
+    buf_reader.read_line(&mut frline).unwrap();
+    println!("{}", frline);
+    let frlines = buf_reader.lines();
+    for l in frlines {
+        println!("{}", l.unwrap());
+    }
+
+    let mut fr4 = File::open("src/sample1.txt").unwrap();
+    let mut frbytes = Vec::new();
+    fr4.read_to_end(&mut frbytes).unwrap();
+    println!("{:?}", frbytes);
+    println!("{:?}", String::from_utf8(frbytes).unwrap());
 }

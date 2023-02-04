@@ -4,7 +4,7 @@ use std::{
     collections::{BinaryHeap, HashMap, HashSet, VecDeque},
     env,
     fs::{self, File},
-    io::{self, BufRead, BufReader, Read},
+    io::{self, BufRead, BufReader, Read, Write},
     rc::Rc,
 };
 
@@ -612,4 +612,12 @@ fn main() {
     fr4.read_to_end(&mut frbytes).unwrap();
     println!("{:?}", frbytes);
     println!("{:?}", String::from_utf8(frbytes).unwrap());
+
+    // file write
+    let mut fw1 = File::create("src/sample2.txt").unwrap();
+    let fwbyte = b"write example!\n";
+    fw1.write_all(fwbyte).unwrap();
+
+    let mut fw2 = File::create("src/sample3.txt").unwrap();
+    writeln!(fw2, "Hello, {}", "Rust").unwrap();
 }

@@ -3,7 +3,7 @@ use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
 use std::{
     collections::{BinaryHeap, HashMap, HashSet, VecDeque},
     env,
-    fs::{self, File},
+    fs::{self, File, OpenOptions},
     io::{self, BufRead, BufReader, Read, Write},
     rc::Rc,
 };
@@ -620,4 +620,15 @@ fn main() {
 
     let mut fw2 = File::create("src/sample3.txt").unwrap();
     writeln!(fw2, "Hello, {}", "Rust").unwrap();
+
+    // file open
+    let fo1 = OpenOptions::new()
+        .append(true)
+        .open("src/sample1.txt")
+        .unwrap();
+    let fo2 = OpenOptions::new()
+        .write(true)
+        .create_new(false)
+        .open("src/sample2.txt")
+        .unwrap();
 }

@@ -1,5 +1,6 @@
 // smart pointer
 use basic::sample_trait::{double_area, Circle1, Rectangle1, Shape1};
+use serde::{Deserialize, Serialize};
 use std::{
     collections::{BinaryHeap, HashMap, HashSet, VecDeque},
     env,
@@ -122,6 +123,14 @@ mod test_module {
     fn test_calc_diff() {
         assert_eq!(1 - 1, 0);
     }
+}
+
+// json
+#[derive(Serialize, Deserialize, Debug)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
 }
 
 fn main() {
@@ -631,4 +640,19 @@ fn main() {
         .create_new(false)
         .open("src/sample2.txt")
         .unwrap();
+
+    // json
+    let jsp = Person {
+        name: String::from("Yamada Taro"),
+        age: 30,
+        phones: vec![String::from("080-XXXX-XXXX"), String::from("090-XXXX-XXXX")],
+    };
+    let jsd = serde_json::to_string_pretty(&jsp).unwrap();
+    let mut jsf1 = File::create("src/sample.json").unwrap();
+    writeln!(jsf1, "{}", jsd).unwrap();
+
+    let jsf2 = File::open("src/sample.json").unwrap();
+    let jsb = BufReader::new(jsf2);
+    let jsondata: Person = serde_json::from_reader(jsb).unwrap();
+    println!("{:?}", jsondata);
 }

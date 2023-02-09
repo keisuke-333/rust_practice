@@ -6,6 +6,7 @@ use std::{
     env,
     fs::{self, File, OpenOptions},
     io::{self, BufRead, BufReader, Read, Write},
+    os::unix::prelude::PermissionsExt,
     path::{Path, PathBuf},
     rc::Rc,
 };
@@ -671,4 +672,17 @@ fn main() {
     println!("{:?}", path_buf);
     path_buf.pop();
     println!("{:?}", path_buf);
+
+    // file system access
+    fs::create_dir("src/test1").unwrap();
+    fs::create_dir_all("src/test2/test2-1/test2-1-1").unwrap();
+    fs::remove_dir("src/test1").unwrap();
+    fs::remove_dir_all("src/test2").unwrap();
+    fs::remove_file("src/sample1.txt").unwrap();
+    fs::copy("src/sample3.txt", "src/sample4.txt").unwrap();
+    fs::create_dir("src/test1").unwrap();
+    fs::rename("src/sample3.txt", "src/test1/sample3.txt").unwrap();
+    let mut permissions = fs::metadata("src/sample2.txt").unwrap().permissions();
+    permissions.set_mode(0o600);
+    fs::set_permissions("src/sample2.txt", permissions).unwrap();
 }

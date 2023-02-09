@@ -6,6 +6,7 @@ use std::{
     env,
     fs::{self, File, OpenOptions},
     io::{self, BufRead, BufReader, Read, Write},
+    path::{Path, PathBuf},
     rc::Rc,
 };
 
@@ -655,4 +656,19 @@ fn main() {
     let jsb = BufReader::new(jsf2);
     let jsondata: Person = serde_json::from_reader(jsb).unwrap();
     println!("{:?}", jsondata);
+
+    // path
+    let path = Path::new("src");
+    println!("{:?}", path.exists());
+    println!("{:?}", path.is_dir());
+    println!("{:?}", path.is_file());
+    println!("{:?}", path.file_name());
+
+    let mut path_buf = PathBuf::from("src");
+    path_buf.push("sample1.txt");
+    println!("{:?}", path_buf);
+    path_buf.set_file_name("path.txt");
+    println!("{:?}", path_buf);
+    path_buf.pop();
+    println!("{:?}", path_buf);
 }

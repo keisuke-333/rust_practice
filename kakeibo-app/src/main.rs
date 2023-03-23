@@ -1,3 +1,4 @@
+use kakeibo_app::services;
 use std::io;
 
 fn main() {
@@ -8,8 +9,7 @@ fn main() {
         .trim()
         .parse()
         .expect("数値で入力してください。");
-
-    // 入力値のバリデーション
+    services::validate::InputValidator::validate_service_type(service_type);
 
     if service_type == 0 {
         println!("登録サービス");

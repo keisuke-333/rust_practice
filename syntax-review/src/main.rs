@@ -11,4 +11,10 @@ fn main() {
     println!("{}, {}, {}", t1.0, t1.1, t1.2);
     let (x1, y1, z1) = t1;
     println!("{}, {}, {}", x1, y1, z1);
+
+    let a1 = [1, 2, 3];
+    let [ar1, ar2, ar3] = a1;
+    println!("{}, {}, {}", ar1, ar2, ar3);
+    let a2 = &a1[1..];
+    println!("{:?}", a2);
 }

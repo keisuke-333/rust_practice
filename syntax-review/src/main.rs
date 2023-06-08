@@ -35,4 +35,12 @@ fn main() {
     let a5 = ary2.get(0);
     let a6 = ary2.get(100);
     println!("{}, {:?}, {:?}", a4, a5, a6);
+
+    let a7 = String::from("Rust");
+    let mut a8 = "C".to_string();
+    a8.push_str("++");
+    println!("{}, {}", a7, a8);
+    println!("{}", a7 + " 1.68.0");
+    let a9 = format!("{} {}", "C", a8);
+    println!("{}", a9);
 }

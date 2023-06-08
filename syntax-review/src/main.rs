@@ -1,5 +1,10 @@
 mod vars;
 
+fn add(a: i32, b: i32) -> i32 {
+    // return a + b;
+    a + b
+}
+
 fn main() {
     println!("Hello, world!");
     vars::run();
@@ -43,4 +48,6 @@ fn main() {
     println!("{}", a7 + " 1.68.0");
     let a9 = format!("{} {}", "C", a8);
     println!("{}", a9);
+
+    println!("{}", add(3, 6));
 }

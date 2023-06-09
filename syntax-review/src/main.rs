@@ -11,11 +11,15 @@ fn main() {
     vars::sub_a::fun_a();
     vars::sub_b::fun_b();
 
-    let t1 = (3, true, 2.0);
+    let mut t1 = (3, true, 2.0);
     println!("{:?}", t1);
     println!("{}, {}, {}", t1.0, t1.1, t1.2);
     let (x1, y1, z1) = t1;
     println!("{}, {}, {}", x1, y1, z1);
+    let (ref mut x1_ptr, _, _) = t1;
+    *x1_ptr = 30;
+    println!("{:p}", x1_ptr);
+    println!("{:?}", t1);
 
     let a1 = [1, 2, 3];
     let [ar1, ar2, ar3] = a1;

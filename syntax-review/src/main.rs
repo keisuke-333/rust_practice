@@ -5,6 +5,11 @@ fn add(a: i32, b: i32) -> i32 {
     a + b
 }
 
+enum _List {
+    Node(i32, Box<_List>),
+    Nil,
+}
+
 fn main() {
     println!("Hello, world!");
     vars::run();
@@ -54,4 +59,13 @@ fn main() {
     println!("{}", a9);
 
     println!("{}", add(3, 6));
+
+    let a10 = (10, String::from("Hello"));
+    println!("{:p}", &a10);
+    println!("{:p}", a10.1.as_ptr());
+    let mut a11 = Box::new(a10);
+    (*a11).1 += "World";
+    println!("{}, {}", a11.0, a11.1);
+    println!("{:p}", &a11);
+    println!("{:?}", a11);
 }

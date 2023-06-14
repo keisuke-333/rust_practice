@@ -1,3 +1,5 @@
+use std::vec;
+
 mod vars;
 
 fn add(a: i32, b: i32) -> i32 {
@@ -8,6 +10,11 @@ fn add(a: i32, b: i32) -> i32 {
 enum _List {
     Node(i32, Box<_List>),
     Nil,
+}
+
+fn concat(a: &String, b: &String) -> String {
+    let c = format!("{}, {}", a, b);
+    c
 }
 
 fn main() {
@@ -68,4 +75,16 @@ fn main() {
     println!("{}, {}", a11.0, a11.1);
     println!("{:p}", &a11);
     println!("{:?}", a11);
+
+    let a12 = vec![1, 2, 3];
+    let a13 = &a12;
+    println!("{:?}", a12);
+    println!("{:?}", a13);
+
+    let a14 = String::from("Hello");
+    let a15 = String::from("Rust");
+    let a16 = concat(&a14, &a15);
+    println!("{}", a14);
+    println!("{}", a15);
+    println!("{}", a16);
 }

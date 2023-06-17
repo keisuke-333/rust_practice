@@ -17,6 +17,13 @@ fn concat(a: &String, b: &String) -> String {
     c
 }
 
+fn sum(a: &[i32]) -> Option<i32> {
+    let a0 = a.get(0)?;
+    let a1 = a.get(1)?;
+    let a2 = a.get(2)?;
+    Some(a0 + a1 + a2)
+}
+
 fn main() {
     println!("Hello, world!");
     vars::run();
@@ -87,4 +94,10 @@ fn main() {
     println!("{}", a14);
     println!("{}", a15);
     println!("{}", a16);
+
+    let a17 = [1, 2, 3];
+    match sum(&a17) {
+        Some(x) => println!("Total: {}", x),
+        None => println!("Out of index!!!"),
+    }
 }

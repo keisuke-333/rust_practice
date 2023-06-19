@@ -1,6 +1,9 @@
 use std::vec;
 
+mod test_module;
 mod vars;
+
+use test_module::{sub_module1, sub_module2};
 
 fn add(a: i32, b: i32) -> i32 {
     // return a + b;
@@ -100,4 +103,10 @@ fn main() {
         Some(x) => println!("Total: {}", x),
         None => println!("Out of index!!!"),
     }
+
+    sub_module1::test_fn1();
+    sub_module2::test_fn2();
+    let test_struct = sub_module1::TestStruct::new(3, 6);
+    println!("{}", test_struct.val1);
+    println!("{}", test_struct.val2);
 }

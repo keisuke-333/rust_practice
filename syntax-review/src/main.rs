@@ -109,4 +109,9 @@ fn main() {
     let test_struct = sub_module1::TestStruct::new(3, 6);
     println!("{}", test_struct.val1);
     println!("{}", test_struct.val2);
+
+    let a18 = vec![1, 2, 3];
+    let a19 = move || println!("{:?}", a18);
+    a19();
+    // println!("{:?}", a18); // ← Not available
 }

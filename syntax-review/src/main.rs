@@ -1,4 +1,4 @@
-use std::vec;
+use std::{collections::HashMap, vec};
 
 mod test_module;
 mod vars;
@@ -114,4 +114,18 @@ fn main() {
     let a19 = move || println!("{:?}", a18);
     a19();
     // println!("{:?}", a18); // ← Not available
+
+    let mut scores = HashMap::new();
+    scores.insert("Sato", 100);
+    scores.insert("Tanaka", 90);
+    scores.entry("Kato").or_insert(100);
+    println!("{:?}", scores);
+
+    let solar_distance = HashMap::from([
+        ("Mercury", 0.4),
+        ("Venus", 0.7),
+        ("Earth", 1.0),
+        ("Mars", 1.5),
+    ]);
+    println!("{:?}", solar_distance);
 }

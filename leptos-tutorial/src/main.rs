@@ -1,12 +1,22 @@
 use leptos::*;
 
+// メインコンポーネントを定義します。
+#[component]
+fn App() -> impl IntoView {
+    let (count, set_count) = create_signal(0);
+
+    view! {
+        <button
+            on:click=move |_| {
+                set_count.update(|n| *n += 1);
+            }
+        >
+            "Counter"
+        </button>
+        <p>{move || count.get()}</p>
+    }
+}
+
 fn main() {
-    mount_to_body(|| {
-        view! {
-            <div>
-                <h1>Leptos</h1>
-                <p>"Hello, world!"</p>
-            </div>
-        }
-    })
+    leptos::mount_to_body(App);
 }

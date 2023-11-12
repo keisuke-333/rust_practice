@@ -17,5 +17,5 @@ fn App() -> impl IntoView {
 }
 
 fn main() {
-    leptos::mount_to_body(App);
+    leptos::mount_to_body(|| view! { <App /> });
 }

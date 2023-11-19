@@ -12,7 +12,7 @@ fn App() -> impl IntoView {
         >
             "Counter"
         </button>
-        <p>{move || count.get()}</p>
+        <p>{count}</p>
     }
 }
 

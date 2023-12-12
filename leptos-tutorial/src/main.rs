@@ -1,21 +1,5 @@
 use leptos::*;
 
-#[component]
-fn App() -> impl IntoView {
-    let (count, set_count) = create_signal(0);
-
-    view! {
-        <button
-            on:click=move |_| {
-                set_count.update(|n| *n += 1);
-            }
-        >
-            "Counter"
-        </button>
-        <p>{count}</p>
-    }
-}
-
 fn main() {
-    leptos::mount_to_body(|| view! { <App /> });
+    mount_to_body(|| view! { <p>"Hello, world!!!"</p> })
 }

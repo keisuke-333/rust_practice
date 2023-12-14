@@ -1,9 +1,44 @@
-mod component;
+trait Shape {
+    fn calc_area(&self) -> f64;
+    fn calc_perimeter(&self) -> f64;
+}
+struct Rectangle {
+    width: f64,
+    height: f64,
+}
 
-use component::*;
+struct Circle {
+    radius: f64,
+}
+
+impl Shape for Rectangle {
+    fn calc_area(&self) -> f64 {
+        self.width * self.height
+    }
+    fn calc_perimeter(&self) -> f64 {
+        self.width + self.height
+    }
+}
+
+impl Shape for Circle {
+    fn calc_area(&self) -> f64 {
+        self.radius * self.radius * std::f64::consts::PI
+    }
+    fn calc_perimeter(&self) -> f64 {
+        (self.radius + self.radius) * std::f64::consts::PI
+    }
+}
 
 fn main() {
-    println!("Hello, world!");
-    component1::test1();
-    component2::test2();
+    let rectangle = Rectangle {
+        width: 6.0,
+        height: 6.0,
+    };
+    let circle = Circle { radius: 3.0 };
+
+    println!("{}", rectangle.calc_area());
+    println!("{}", rectangle.calc_perimeter());
+
+    println!("{}", circle.calc_area());
+    println!("{}", circle.calc_perimeter());
 }

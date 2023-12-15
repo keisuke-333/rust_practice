@@ -29,6 +29,10 @@ impl Shape for Circle {
     }
 }
 
+fn double_area(shape: &impl Shape) -> f64 {
+    shape.calc_area() * 2.0
+}
+
 fn main() {
     let rectangle = Rectangle {
         width: 6.0,
@@ -41,4 +45,7 @@ fn main() {
 
     println!("{}", circle.calc_area());
     println!("{}", circle.calc_perimeter());
+
+    println!("{}", double_area(&rectangle));
+    println!("{}", double_area(&circle));
 }

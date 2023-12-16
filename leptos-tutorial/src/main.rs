@@ -12,7 +12,7 @@ pub fn App() -> impl IntoView {
         >
             "counter"
         </button>
-        <p>{count}</p>
+        <p class:red=move || count() % 2 == 1>{count}</p>
     }
 }
 

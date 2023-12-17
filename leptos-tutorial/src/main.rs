@@ -1,18 +1,20 @@
 use leptos::*;
+use leptos_router::*;
+
+mod pages;
+
+use crate::pages::{About::About, Contact::Contact, Home::Home};
 
 #[component]
 pub fn App() -> impl IntoView {
-    let (count, set_count) = create_signal(0);
-
     view! {
-        <button
-            on:click=move |_| {
-                set_count.update(|n| *n += 1);
-            }
-        >
-            "counter"
-        </button>
-        <p class:red=move || count() % 2 == 1>{count}</p>
+        <Router>
+            <Routes>
+                <Route path="/" view=Home />
+                <Route path="/about" view=About />
+                <Route path="/contact" view=Contact />
+            </Routes>
+        </Router>
     }
 }
 

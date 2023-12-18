@@ -1,51 +1,48 @@
-trait Shape {
-    fn calc_area(&self) -> f64;
-    fn calc_perimeter(&self) -> f64;
-}
-struct Rectangle {
-    width: f64,
-    height: f64,
+use std::fmt::{Debug, Display};
+
+struct Point<T> {
+    x: T,
+    y: T,
 }
 
-struct Circle {
-    radius: f64,
-}
+// ジェネリックな構造体のメソッド
+impl<T: PartialOrd + Debug> Point<T> {
+    fn max(&self) -> &T {
+        if self.x >= self.y {
+            &self.x
+        } else {
+            &self.y
+        }
+    }
 
-impl Shape for Rectangle {
-    fn calc_area(&self) -> f64 {
-        self.width * self.height
-    }
-    fn calc_perimeter(&self) -> f64 {
-        self.width + self.height
-    }
-}
-
-impl Shape for Circle {
-    fn calc_area(&self) -> f64 {
-        self.radius * self.radius * std::f64::consts::PI
-    }
-    fn calc_perimeter(&self) -> f64 {
-        (self.radius + self.radius) * std::f64::consts::PI
+    // 別のジェネリック型のメソッド
+    fn print_arg<U: Display>(&self, val: U) {
+        println!("self.x = {:?}", self.x);
+        println!("val = {}", val);
     }
 }
 
-fn double_area(shape: &impl Shape) -> f64 {
-    shape.calc_area() * 2.0
+// 特定の型の場合のメソッド
+impl Point<i32> {
+    fn min(&self) -> i32 {
+        if self.x <= self.y {
+            self.x
+        } else {
+            self.y
+        }
+    }
 }
 
 fn main() {
-    let rectangle = Rectangle {
-        width: 6.0,
-        height: 6.0,
-    };
-    let circle = Circle { radius: 3.0 };
+    let p1 = Point { x: 3, y: 6 };
+    let p2 = Point { x: 3.0, y: 3.0 };
+    let p3 = Point { x: "a", y: "z" };
+    println!("{}", p1.max());
+    println!("{}", p2.max());
+    println!("{}", p3.max());
 
-    println!("{}", rectangle.calc_area());
-    println!("{}", rectangle.calc_perimeter());
+    p1.print_arg("test");
 
-    println!("{}", circle.calc_area());
-    println!("{}", circle.calc_perimeter());
-
-    println!("{}", double_area(&rectangle));
-    println!("{}", double_area(&circle));
+    println!("{}", p1.min());
+    // println!("{}", p2.min());  // ← This is error!Z
 }

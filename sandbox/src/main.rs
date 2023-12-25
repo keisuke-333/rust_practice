@@ -1,10 +1,19 @@
+fn need_even(num: i32) -> Result<i32, &'static str> {
+    if num % 2 == 0 {
+        Ok(num)
+    } else {
+        Err("引数は偶数にしてください")
+    }
+}
+
+fn double_even(num: i32) -> Result<i32, &'static str> {
+    let x = need_even(num)?;
+    Ok(x * 2)
+}
+
 fn main() {
-    for x in 1..=30 {
-        match (x % 3, x % 5) {
-            (0, 0) => println!("FizzBuzz"),
-            (0, _) => println!("Fizz"),
-            (_, 0) => println!("Buzz"),
-            _ => println!("{}", x),
-        }
+    match double_even(10) {
+        Ok(val) => println!("{}", val),
+        Err(err) => println!("{}", err),
     }
 }

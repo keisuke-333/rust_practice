@@ -1,19 +1,13 @@
-fn need_even(num: i32) -> Result<i32, &'static str> {
-    if num % 2 == 0 {
-        Ok(num)
-    } else {
-        Err("引数は偶数にしてください")
-    }
+use tokio::time::{sleep, Duration};
+
+#[tokio::main]
+async fn main() {
+    println!("Starting the task...");
+    delay().await;
+    println!("Task completed.");
 }
 
-fn double_even(num: i32) -> Result<i32, &'static str> {
-    let x = need_even(num)?;
-    Ok(x * 2)
-}
-
-fn main() {
-    match double_even(10) {
-        Ok(val) => println!("{}", val),
-        Err(err) => println!("{}", err),
-    }
+async fn delay() {
+    sleep(Duration::from_secs(2)).await;
+    println!("2 seconds have passed.");
 }

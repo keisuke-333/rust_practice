@@ -1,162 +1,137 @@
-mod handlers;
-mod repositories;
-
 use axum::{
-    response::{Html, IntoResponse},
-    routing::{get, post},
-    Extension,
-    Router,
+    error_handling::HandleErrorLayer,
+    extract::{Path, State},
+    http::StatusCode,
+    response::IntoResponse,
+    routing::{get, patch},
+    Json, Router,
 };
-use handlers::{all_todo, create_todo, delete_todo, find_todo, update_todo};
-use repositories::{TodoRepository, TodoRepositoryForMemory};
-use std::{net::SocketAddr, sync::Arc};
-use tokio::net::TcpListener;
+use serde::{Deserialize, Serialize};
+use std::{
+    collections::HashMap,
+    sync::{Arc, RwLock},
+    time::Duration,
+};
+use tower::{BoxError, ServiceBuilder};
 use tower_http::trace::TraceLayer;
+use tracing_subscriber::{layer::SubscriberExt, util::SubscriberInitExt};
+use uuid::Uuid;
+use dotenvy::dotenv;
 
 #[tokio::main]
 async fn main() {
-    tracing_subscriber::fmt::init();
+    dotenv().expect(".env file not found");
 
-    let repository = TodoRepositoryForMemory::new();
-    let app = create_app(repository);
+    tracing_subscriber::registry()
+        .with(
+            tracing_subscriber::EnvFilter::try_from_default_env()
+                .unwrap_or_else(|_| "example_todos=debug,tower_http=debug".into()),
+        )
+        .with(tracing_subscriber::fmt::layer())
+        .init();
 
-    let ip_address = "127.0.0.1";
-    let port = 8080;
-    let addr = SocketAddr::new(ip_address.parse().unwrap(), port);
-    let listener = TcpListener::bind(addr).await.unwrap();
+    let db = Db::default();
 
-    tracing::info!("Server running at http://{}", addr);
+    // Compose the routes
+    let app = Router::new()
+        .route("/todos", get(todos_index).post(todos_create))
+        .route("/todos/:id", patch(todos_update).delete(todos_delete))
+        // Add middleware to all routes
+        .layer(
+            ServiceBuilder::new()
+                .layer(HandleErrorLayer::new(|error: BoxError| async move {
+                    if error.is::<tower::timeout::error::Elapsed>() {
+                        Ok(StatusCode::REQUEST_TIMEOUT)
+                    } else {
+                        Err((
+                            StatusCode::INTERNAL_SERVER_ERROR,
+                            format!("Unhandled internal error: {error}"),
+                        ))
+                    }
+                }))
+                .timeout(Duration::from_secs(10))
+                .layer(TraceLayer::new_for_http())
+                .into_inner(),
+        )
+        .with_state(db);
 
+    let listener = tokio::net::TcpListener::bind("127.0.0.1:8080")
+        .await
+        .unwrap();
+    tracing::debug!("listening on {}", listener.local_addr().unwrap());
     axum::serve(listener, app).await.unwrap();
 }
 
-fn create_app<T: TodoRepository>(repository: T) -> Router {
-    Router::new()
-        .route("/", get(handler_hello))
-        .route("/todos",post(create_todo::<T>).get(all_todo::<T>))
-        .route("/todos/:id", get(find_todo::<T>).delete(delete_todo::<T>).patch(update_todo::<T>))
-        .layer(Extension(Arc::new(repository)))
-        .layer(TraceLayer::new_for_http())
+// The query parameters for todos index
+async fn todos_index(
+    State(db): State<Db>,
+) -> impl IntoResponse {
+    let todos = db.read().unwrap();
+    let todos = todos.values().cloned().collect::<Vec<_>>();
+    Json(todos)
 }
 
-async fn handler_hello() -> impl IntoResponse {
-    Html("Hello World!!!")
+#[derive(Debug, Deserialize)]
+struct CreateTodo {
+    text: String,
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
-    use crate::repositories::{CreateTodo, Todo};
-    use axum::{
-        body::Body,
-        http::{header, Method, Request, StatusCode},
-        response::Response,
+async fn todos_create(State(db): State<Db>, Json(input): Json<CreateTodo>) -> impl IntoResponse {
+    let todo = Todo {
+        id: Uuid::new_v4(),
+        text: input.text,
+        completed: false,
     };
-    use tower::ServiceExt;
-    use http_body_util::BodyExt; 
 
-    fn build_todo_req_with_json(path: &str, method: Method, json_body: String) -> Request<Body> {
-        Request::builder()
-            .uri(path)
-            .method(method)
-            .header(header::CONTENT_TYPE, mime::APPLICATION_JSON.as_ref())
-            .body(Body::from(json_body))
-            .unwrap()
+    db.write().unwrap().insert(todo.id, todo.clone());
+
+    (StatusCode::CREATED, Json(todo))
+}
+
+#[derive(Debug, Deserialize)]
+struct UpdateTodo {
+    text: Option<String>,
+    completed: Option<bool>,
+}
+
+async fn todos_update(
+    Path(id): Path<Uuid>,
+    State(db): State<Db>,
+    Json(input): Json<UpdateTodo>,
+) -> Result<impl IntoResponse, StatusCode> {
+    let mut todo = db
+        .read()
+        .unwrap()
+        .get(&id)
+        .cloned()
+        .ok_or(StatusCode::NOT_FOUND)?;
+
+    if let Some(text) = input.text {
+        todo.text = text;
     }
 
-    fn build_todo_req_with_empty(method: Method, path: &str) -> Request<Body> {
-        Request::builder()
-            .uri(path)
-            .method(method)
-            .body(Body::empty())
-            .unwrap()
+    if let Some(completed) = input.completed {
+        todo.completed = completed;
     }
 
-    async fn res_to_todo(res: Response) -> Todo {
-        let bytes = res.into_body().collect().await.unwrap().to_bytes();
-        let body = String::from_utf8(bytes.to_vec()).unwrap();
-        let todo = serde_json::from_str(&body).expect(&format!("cannnot convert Todo instance. body: {}", body));
-        todo
-    }
+    db.write().unwrap().insert(todo.id, todo.clone());
 
-    #[tokio::test]
-    async fn should_return_hello_world() {
-        let repository = TodoRepositoryForMemory::new();
-        let req = Request::builder()
-            .uri("/")
-            .body(Body::empty())
-            .unwrap();
-        let res = create_app(repository).oneshot(req).await.unwrap();
-        assert_eq!(res.status(), StatusCode::OK);
-        let bytes = res.into_body().collect().await.unwrap().to_bytes();
-        let body = String::from_utf8(bytes.to_vec()).unwrap();
-        assert_eq!(body, "Hello World!!!");
-    }
+    Ok(Json(todo))
+}
 
-    #[tokio::test]
-    async fn should_created_todo() {
-        let expected = Todo::new(1, "should_return_created_todo".to_string());
-        let repository = TodoRepositoryForMemory::new();
-        let req = build_todo_req_with_json(
-            "/todos",
-            Method::POST,
-            r#"{ "text": "should_return_created_todo" }"#.to_string(),
-        );
-        let res = create_app(repository).oneshot(req).await.unwrap();
-        let todo = res_to_todo(res).await;
-        assert_eq!(expected, todo);
+async fn todos_delete(Path(id): Path<Uuid>, State(db): State<Db>) -> impl IntoResponse {
+    if db.write().unwrap().remove(&id).is_some() {
+        StatusCode::NO_CONTENT
+    } else {
+        StatusCode::NOT_FOUND
     }
+}
 
-    #[tokio::test]
-    async fn should_find_todo() {
-        let expected = Todo::new(1, "should_find_todo".to_string());
-        let repository = TodoRepositoryForMemory::new();
-        repository.create(CreateTodo::new("should_find_todo".to_string()));
-        let req = build_todo_req_with_empty(Method::GET, "/todos/1");
-        let res = create_app(repository).oneshot(req).await.unwrap();
-        let todo = res_to_todo(res).await;
-        assert_eq!(expected, todo);
-    }
+type Db = Arc<RwLock<HashMap<Uuid, Todo>>>;
 
-    #[tokio::test]
-    async fn should_get_all_todos() {
-        let expected = Todo::new(1, "should_get_all_todos".to_string());
-        let repository = TodoRepositoryForMemory::new();
-        repository.create(CreateTodo::new("should_get_all_todos".to_string()));
-        let req = build_todo_req_with_empty(Method::GET, "/todos");
-        let res = create_app(repository).oneshot(req).await.unwrap();
-        let bytes = res.into_body().collect().await.unwrap().to_bytes();
-        let body = String::from_utf8(bytes.to_vec()).unwrap();
-        let todo: Vec<Todo> = serde_json::from_str(&body).expect(&format!("cannnot convert Todo instance. body: {}", body));
-        assert_eq!(vec![expected], todo);
-    }
-
-    #[tokio::test]
-    async fn should_update_todo() {
-        let expected = Todo::new(1, "should_update_todo".to_string());
-        let repository = TodoRepositoryForMemory::new();
-        repository.create(CreateTodo::new("before_update_todo".to_string()));
-        let req = build_todo_req_with_json(
-            "/todos/1",
-            Method::PATCH,
-            r#"{
-    "id": 1,
-    "text": "should_update_todo",
-    "completed": false
-}"#
-            .to_string(),
-        );
-        let res = create_app(repository).oneshot(req).await.unwrap();
-        let todo = res_to_todo(res).await;
-        assert_eq!(expected, todo);
-    }
-
-    #[tokio::test]
-    async fn should_delete_todo() {
-        let repository = TodoRepositoryForMemory::new();
-        repository.create(CreateTodo::new("should_delete_todo".to_string()));
-        let req = build_todo_req_with_empty(Method::DELETE, "/todos/1");
-        let res = create_app(repository).oneshot(req).await.unwrap();
-        assert_eq!(StatusCode::NO_CONTENT, res.status());
-    }
+#[derive(Debug, Serialize, Clone)]
+struct Todo {
+    id: Uuid,
+    text: String,
+    completed: bool,
 }

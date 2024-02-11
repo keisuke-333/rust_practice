@@ -32,11 +32,9 @@ async fn main() {
 
     let db = Db::default();
 
-    // Compose the routes
     let app = Router::new()
         .route("/todos", get(todos_index).post(todos_create))
         .route("/todos/:id", patch(todos_update).delete(todos_delete))
-        // Add middleware to all routes
         .layer(
             ServiceBuilder::new()
                 .layer(HandleErrorLayer::new(|error: BoxError| async move {
@@ -62,7 +60,6 @@ async fn main() {
     axum::serve(listener, app).await.unwrap();
 }
 
-// The query parameters for todos index
 async fn todos_index(
     State(db): State<Db>,
 ) -> impl IntoResponse {

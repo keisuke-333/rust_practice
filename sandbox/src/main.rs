@@ -1,9 +1,21 @@
-mod controllers;
+use anyhow::{Context, Result};
 
-use controllers::todo_controller::{print_text1, print_text2};
+fn foo() -> Result<()> {
+    bar().context("foo error")?;
+    Ok(())
+}
+
+fn bar() -> Result<()> {
+    baz().context("bar error")?;
+    Ok(())
+}
+
+fn baz() -> Result<()> {
+    Err(anyhow::anyhow!("baz error"))
+}
 
 fn main() {
-    println!("test");
-    print_text1();
-    print_text2();
+    if let Err(e) = foo() {
+        println!("{:?}", e);
+    }
 }

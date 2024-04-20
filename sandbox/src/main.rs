@@ -1,21 +1,18 @@
-use anyhow::{Context, Result};
-
-fn foo() -> Result<()> {
-    bar().context("foo error")?;
-    Ok(())
-}
-
-fn bar() -> Result<()> {
-    baz().context("bar error")?;
-    Ok(())
-}
-
-fn baz() -> Result<()> {
-    Err(anyhow::anyhow!("baz error"))
-}
+use std::thread;
 
 fn main() {
-    if let Err(e) = foo() {
-        println!("{:?}", e);
-    }
+    let t1 = thread::spawn(f);
+    let t2 = thread::spawn(f);
+
+    println!("main thread!");
+
+    t1.join().unwrap();
+    t2.join().unwrap();
+}
+
+fn f() {
+    println!("another thread!");
+
+    let id = thread::current().id();
+    println!("thread id: {id:?}");
 }

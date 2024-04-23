@@ -1,7 +1,16 @@
-use std::thread;
+use std::cell::Cell;
+
+struct Person {
+    name: String,
+    age: Cell<u32>,
+}
 
 fn main() {
-    let x: &'static [i32; 3] = Box::leak(Box::new([1,2,3]));
-    thread::spawn(move || dbg!(x)).join().unwrap();
-    thread::spawn(move || dbg!(x)).join().unwrap();
+    let person = Person {
+        name: String::from("Alice"),
+        age: Cell::new(30),
+    };
+
+    person.age.set(31);
+    println!("Name:{}, Age:{}", person.name, person.age.get());
 }
